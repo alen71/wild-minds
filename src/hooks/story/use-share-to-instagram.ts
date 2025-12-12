@@ -21,10 +21,7 @@ function useShareToInstagram({
     const appId = process.env.EXPO_PUBLIC_FACEBOOK_APP_ID
 
     if (!appId) {
-      Alert.alert(
-        'No app ID',
-        'Please set the app ID in the environment variables'
-      )
+      Alert.alert('No app ID', 'Please set the app ID in the environment variables')
       return
     }
 

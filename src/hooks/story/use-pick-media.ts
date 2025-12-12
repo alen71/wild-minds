@@ -4,17 +4,13 @@ import { useCallback, useState } from 'react'
 import { Alert } from 'react-native'
 
 function usePickMedia() {
-  const [selectedAsset, setSelectedAsset] =
-    useState<ImagePicker.ImagePickerAsset | null>(null)
+  const [selectedAsset, setSelectedAsset] = useState<ImagePicker.ImagePickerAsset | null>(null)
   const [imageUri, setImageUri] = useState<string | null>(null)
 
   const pickMedia = useCallback(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
     if (status !== 'granted') {
-      Alert.alert(
-        'Permission needed',
-        'Allow photo access to choose a background.'
-      )
+      Alert.alert('Permission needed', 'Allow photo access to choose a background.')
       return
     }
 

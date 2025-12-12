@@ -3,15 +3,24 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
-    "lib": ["es5", "es6", "es2019", "dom", "dom.iterable"]
+    "lib": [
+      "es5",
+      "es6",
+      "es2019",
+      "dom",
+      "dom.iterable"
+    ]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "babel.config.js"
+    "babel.config.js",
+    "nativewind-env.d.ts"
   ]
 }

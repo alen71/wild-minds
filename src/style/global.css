@@ -1,4 +1,10 @@
-/* This file adds the requisite utility classes for Tailwind to work. */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css';
+
+@import 'nativewind/theme';
+
+@theme {
+  --color-base-brown: #4b2a16;
+  --color-soft-cream: #f7f2ec;
+}
