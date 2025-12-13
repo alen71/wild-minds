@@ -36,6 +36,7 @@ export default function StoryScreen() {
         {/* Render media */}
         <RenderMedia pickMedia={pickMedia} selectedAsset={selectedAsset} />
       </ViewShot>
+
       {/* Story actions */}
       <StoryActions handleShareToInstagram={handleShareToInstagram} isSharing={isSharing} />
     </View>

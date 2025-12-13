@@ -5,6 +5,7 @@ import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withTiming,
 } from 'react-native-reanimated'
 
@@ -17,10 +18,13 @@ function StoryActions({ handleShareToInstagram, isSharing }: Props) {
   const opacity = useSharedValue(0)
 
   useEffect(() => {
-    opacity.value = withTiming(1, {
-      duration: 450,
-      easing: Easing.out(Easing.ease),
-    })
+    opacity.value = withDelay(
+      400,
+      withTiming(1, {
+        duration: 600,
+        easing: Easing.out(Easing.ease),
+      })
+    )
   }, [opacity])
 
   const containerAnimatedStyle = useAnimatedStyle(() => ({
