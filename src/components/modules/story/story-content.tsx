@@ -39,7 +39,7 @@ function StoryContent({ show }: Props) {
       <Animated.View style={titleAnimatedStyle}>
         <TextInput
           value={content.title}
-          placeholder="Your title"
+          placeholder="What's on your mind?"
           onChangeText={(text) => setContent({ ...content, title: text })}
           className="text-soft-cream font-serif text-3xl font-bold"
         />
@@ -48,7 +48,7 @@ function StoryContent({ show }: Props) {
       <Animated.View style={descriptionAnimatedStyle}>
         <TextInput
           value={content.description}
-          placeholder="Your description"
+          placeholder="Tell us more..."
           onChangeText={(text) => setContent({ ...content, description: text })}
           className="text-soft-cream font-rounded mb-3 text-lg"
         />
