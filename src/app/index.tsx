@@ -1,7 +1,8 @@
-import RenderMedia from '@/components/modules/story/render-media'
-import StoryActions from '@/components/modules/story/story-actions'
-import StoryContent from '@/components/modules/story/story-content'
+import RenderMedia from '@/components/features/story/render-media'
+import StoryActions from '@/components/features/story/story-actions'
+import StoryContent from '@/components/features/story/story-content'
 import usePickMedia from '@/hooks/story/use-pick-media'
+import useSaveToGallery from '@/hooks/story/use-save-to-gallery'
 import useShareToInstagram from '@/hooks/story/use-share-to-instagram'
 import { X } from 'lucide-react-native'
 import { Pressable, View } from 'react-native'
@@ -15,6 +16,11 @@ export default function StoryScreen() {
 
   const { handleShareToInstagram, isSharing, mediaWrapperRef } = useShareToInstagram({
     selectedAsset,
+  })
+
+  const { handleSaveToGallery, isSaving } = useSaveToGallery({
+    selectedAsset,
+    mediaWrapperRef: mediaWrapperRef as React.RefObject<View | null>,
   })
 
   return (
@@ -38,7 +44,12 @@ export default function StoryScreen() {
       </ViewShot>
 
       {/* Story actions */}
-      <StoryActions handleShareToInstagram={handleShareToInstagram} isSharing={isSharing} />
+      <StoryActions
+        handleShareToInstagram={handleShareToInstagram}
+        isSharing={isSharing}
+        handleSaveToGallery={handleSaveToGallery}
+        isSaving={isSaving}
+      />
     </View>
   )
 }

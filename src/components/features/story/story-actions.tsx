@@ -12,9 +12,11 @@ import Animated, {
 type Props = PressableProps & {
   handleShareToInstagram: () => void
   isSharing: boolean
+  handleSaveToGallery: () => void
+  isSaving: boolean
 }
 
-function StoryActions({ handleShareToInstagram, isSharing }: Props) {
+function StoryActions({ handleShareToInstagram, isSharing, handleSaveToGallery, isSaving }: Props) {
   const opacity = useSharedValue(0)
 
   useEffect(() => {
@@ -36,17 +38,20 @@ function StoryActions({ handleShareToInstagram, isSharing }: Props) {
       <Animated.View
         style={[containerAnimatedStyle, { flexDirection: 'row', justifyContent: 'space-between' }]}>
         {/* Save button */}
-        <Pressable className="flex-1 items-center justify-center">
-          <Text className="font-rounded text-soft-cream ml-2 text-xl">Save</Text>
+        <Pressable
+          onPress={handleSaveToGallery}
+          disabled={isSaving}
+          className="flex-1 items-center justify-center">
+          <Text className="text-soft-cream ml-2 text-xl">{isSaving ? 'Saving...' : 'Save'}</Text>
         </Pressable>
 
         {/* Share to Stories button */}
         <Pressable
           onPress={handleShareToInstagram}
           disabled={isSharing}
-          className="bg-soft-cream flex-row items-center rounded-full px-5 py-3">
+          className="bg-soft-cream w-1/2 flex-row items-center justify-center rounded-full px-5 py-3">
           <Instagram size={20} />
-          <Text className="text-base-brown font-rounded ml-2 text-lg">
+          <Text className="text-base-brown ml-2 text-lg">
             {isSharing ? 'Sharing...' : 'Share to Stories'}
           </Text>
         </Pressable>

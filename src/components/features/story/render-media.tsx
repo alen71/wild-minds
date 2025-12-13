@@ -62,8 +62,18 @@ function RenderMedia({ pickMedia, selectedAsset }: Props) {
           placeholderAnimatedStyle,
           { flex: 1, justifyContent: 'center', alignItems: 'center' },
         ]}>
-        <Pressable className="h-96 w-full items-center justify-center" onPress={pickMedia}>
-          <Text className="text-soft-cream font-rounded text-lg">Tap to choose image or video</Text>
+        <Pressable className="w-full items-center justify-center" onPress={pickMedia}>
+          <Text
+            style={{
+              fontFamily: 'poppinsRegular',
+              fontSize: 18,
+              lineHeight: 24,
+              color: '#f7f2ec',
+              width: '100%',
+              textAlign: 'center',
+            }}>
+            Tap to choose image or video
+          </Text>
         </Pressable>
       </Animated.View>
     )

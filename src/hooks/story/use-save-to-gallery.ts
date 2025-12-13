@@ -1,33 +1,34 @@
 import { ImagePickerAsset } from 'expo-image-picker'
-import { useRef, useState } from 'react'
+import * as MediaLibrary from 'expo-media-library'
+import { useState } from 'react'
 import { Alert, InteractionManager, View } from 'react-native'
-import Share, { ShareSingleOptions, Social } from 'react-native-share'
 import { captureRef } from 'react-native-view-shot'
 
-interface UseShareToInstagramParams {
+interface UseSaveToGalleryParams {
   selectedAsset: ImagePickerAsset | null
+  mediaWrapperRef: React.RefObject<View | null>
 }
 
-function useShareToInstagram({ selectedAsset }: UseShareToInstagramParams) {
-  const [isSharing, setIsSharing] = useState(false)
-  const mediaWrapperRef = useRef<View | null>(null)
+function useSaveToGallery({ selectedAsset, mediaWrapperRef }: UseSaveToGalleryParams) {
+  const [isSaving, setIsSaving] = useState(false)
 
-  const handleShareToInstagram = async () => {
-    const appId = process.env.EXPO_PUBLIC_FACEBOOK_APP_ID
-
-    if (!appId) {
-      Alert.alert('No app ID', 'Please set the app ID in the environment variables')
-      return
-    }
-
+  const handleSaveToGallery = async () => {
     if (!selectedAsset) {
       Alert.alert('No media', 'Please select an image or video first')
       return
     }
 
-    setIsSharing(true)
+    setIsSaving(true)
 
     try {
+      // Request media library permissions
+      const { status } = await MediaLibrary.requestPermissionsAsync()
+      if (status !== 'granted') {
+        Alert.alert('Permission needed', 'Please grant permission to save media to your gallery.')
+        setIsSaving(false)
+        return
+      }
+
       const isVideo = selectedAsset.type === 'video'
       let mediaUri: string
 
@@ -40,7 +41,7 @@ function useShareToInstagram({ selectedAsset }: UseShareToInstagramParams) {
         // For images, capture the view with overlay (title, description, date)
         if (!mediaWrapperRef.current) {
           Alert.alert('Error', 'Media wrapper ref is not available')
-          setIsSharing(false)
+          setIsSaving(false)
           return
         }
 
@@ -59,29 +60,28 @@ function useShareToInstagram({ selectedAsset }: UseShareToInstagramParams) {
         })
       }
 
-      // Share directly to Instagram Stories using react-native-share
-      // This opens Instagram Stories editor with the media pre-loaded
-      const shareOptions: ShareSingleOptions = {
-        social: Social.InstagramStories,
-        appId,
-      }
+      // Save to gallery
+      const asset = await MediaLibrary.createAssetAsync(mediaUri)
 
-      if (isVideo) {
-        shareOptions.backgroundVideo = mediaUri
+      // Create album if it doesn't exist (optional - you can customize the album name)
+      const albumName = 'Social Sharing'
+      let album = await MediaLibrary.getAlbumAsync(albumName)
+      if (!album) {
+        album = await MediaLibrary.createAlbumAsync(albumName, asset, false)
       } else {
-        shareOptions.backgroundImage = mediaUri
+        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false)
       }
 
-      await Share.shareSingle(shareOptions)
+      Alert.alert('Success', 'Media saved to gallery!')
     } catch (error: any) {
-      console.error('Error sharing to Instagram Stories:', error)
-      Alert.alert('Sharing failed', 'Failed to share to Instagram Stories')
+      console.error('Error saving to gallery:', error)
+      Alert.alert('Save failed', error?.message || 'Failed to save media to gallery')
     } finally {
-      setIsSharing(false)
+      setIsSaving(false)
     }
   }
 
-  return { handleShareToInstagram, isSharing, mediaWrapperRef }
+  return { handleSaveToGallery, isSaving }
 }
 
-export default useShareToInstagram
+export default useSaveToGallery
