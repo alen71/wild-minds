@@ -1,11 +1,9 @@
-import { Asset } from 'expo-asset'
 import * as ImagePicker from 'expo-image-picker'
 import { useCallback, useState } from 'react'
 import { Alert } from 'react-native'
 
 function usePickMedia() {
   const [selectedAsset, setSelectedAsset] = useState<ImagePicker.ImagePickerAsset | null>(null)
-  const [imageUri, setImageUri] = useState<string | null>(null)
 
   const pickMedia = useCallback(async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -23,15 +21,14 @@ function usePickMedia() {
     if (!result.canceled) {
       const pickedAsset = result.assets[0]
       setSelectedAsset(pickedAsset)
-
-      // Get localUri similar to Asset.fromModule pattern
-      const asset = Asset.fromURI(pickedAsset.uri)
-      await asset.downloadAsync()
-      setImageUri(asset.localUri || null)
     }
   }, [])
 
-  return { pickMedia, selectedAsset, imageUri }
+  const clearMedia = useCallback(() => {
+    setSelectedAsset(null)
+  }, [])
+
+  return { pickMedia, selectedAsset, clearMedia }
 }
 
 export default usePickMedia

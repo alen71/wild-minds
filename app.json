@@ -11,12 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "LSApplicationQueriesSchemes": [
-          "fb",
-          "instagram",
-          "twitter",
-          "tiktoksharesdk"
-        ]
+        "LSApplicationQueriesSchemes": ["fb", "instagram", "twitter", "tiktoksharesdk"]
       },
       "bundleIdentifier": "com.anonymous.wildminds"
     },
