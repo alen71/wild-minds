@@ -1,21 +1,16 @@
 import { ImagePickerAsset } from 'expo-image-picker'
-import { RefObject, useState } from 'react'
-import { Alert, View } from 'react-native'
+import { useRef, useState } from 'react'
+import { Alert, InteractionManager, View } from 'react-native'
 import Share, { ShareSingleOptions, Social } from 'react-native-share'
 import { captureRef } from 'react-native-view-shot'
 
 interface UseShareToInstagramParams {
   selectedAsset: ImagePickerAsset | null
-  imageUri: string | null
-  mediaWrapperRef: RefObject<View | null>
 }
 
-function useShareToInstagram({
-  selectedAsset,
-  imageUri,
-  mediaWrapperRef,
-}: UseShareToInstagramParams) {
+function useShareToInstagram({ selectedAsset }: UseShareToInstagramParams) {
   const [isSharing, setIsSharing] = useState(false)
+  const mediaWrapperRef = useRef<View | null>(null)
 
   const handleShareToInstagram = async () => {
     const appId = process.env.EXPO_PUBLIC_FACEBOOK_APP_ID
@@ -40,8 +35,9 @@ function useShareToInstagram({
         // For videos, use the video URI directly
         // Note: Videos won't include the overlay (title, description, date)
         // The overlay would need video processing to composite it onto the video
-        mediaUri = imageUri || selectedAsset.uri
+        mediaUri = selectedAsset.uri
       } else {
+        console.log('capture')
         // For images, capture the view with overlay (title, description, date)
         if (!mediaWrapperRef.current) {
           Alert.alert('Error', 'Media wrapper ref is not available')
@@ -49,10 +45,20 @@ function useShareToInstagram({
           return
         }
 
+        // Wait for the view to be fully laid out before capturing
+        // This ensures the view is ready and prevents "No view found with reactTag" errors
+        await new Promise<void>((resolve) => {
+          InteractionManager.runAfterInteractions(() => {
+            // Additional delay to ensure view is fully rendered and laid out
+            setTimeout(resolve, 200)
+          })
+        })
+
         mediaUri = await captureRef(mediaWrapperRef, {
           format: 'png',
           quality: 1,
         })
+        console.log('mediaWrapperRef.current', mediaWrapperRef.current)
       }
 
       // Share directly to Instagram Stories using react-native-share
@@ -68,6 +74,7 @@ function useShareToInstagram({
         shareOptions.backgroundImage = mediaUri
       }
 
+      console.log('shareOptions', shareOptions)
       await Share.shareSingle(shareOptions)
     } catch (error: any) {
       console.error('Error sharing to Instagram Stories:', error)
@@ -77,7 +84,7 @@ function useShareToInstagram({
     }
   }
 
-  return { handleShareToInstagram, isSharing }
+  return { handleShareToInstagram, isSharing, mediaWrapperRef }
 }
 
 export default useShareToInstagram
