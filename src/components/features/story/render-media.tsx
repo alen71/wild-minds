@@ -62,7 +62,7 @@ function RenderMedia({ pickMedia, selectedAsset }: Props) {
           placeholderAnimatedStyle,
           { flex: 1, justifyContent: 'center', alignItems: 'center' },
         ]}>
-        <Pressable className="w-full items-center justify-center" onPress={pickMedia}>
+        <Pressable className="h-full w-full items-center justify-center" onPress={pickMedia}>
           <Text
             style={{
               fontFamily: 'poppinsRegular',

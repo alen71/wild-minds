@@ -1,7 +1,7 @@
 import useStoryContentAnimations from '@/hooks/story/use-story-content-animations'
 import { cn } from '@/utils/helper'
 import React, { useMemo } from 'react'
-import { Text, TextInput, View } from 'react-native'
+import { Platform, Text, TextInput, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 type Props = {
@@ -34,7 +34,7 @@ function StoryContent({ show }: Props) {
             fontSize: 16,
             lineHeight: 24,
             color: '#f7f2ec',
-            marginBottom: 16,
+            marginBottom: Platform.OS === 'ios' ? 30 : 20,
           }}>
           {dateLabel}
         </Text>
@@ -42,16 +42,29 @@ function StoryContent({ show }: Props) {
 
       <Animated.View style={titleAnimatedStyle}>
         <TextInput
+          placeholderTextColor="#f7f2ecca"
           placeholder="What's on your mind?"
-          style={{ fontFamily: 'bitterMedium', fontSize: 28, lineHeight: 32 }}
+          style={{
+            fontFamily: 'bitterMedium',
+            fontSize: 26,
+            lineHeight: 32,
+            marginBottom: Platform.OS === 'ios' ? 20 : 0,
+            color: '#f7f2ec',
+          }}
         />
       </Animated.View>
 
       <Animated.View style={descriptionAnimatedStyle}>
         <TextInput
           placeholder="Tell us more..."
-          style={{ fontFamily: 'poppinsRegular' }}
-          className="text-soft-cream mb-3 text-lg"
+          placeholderTextColor="#f7f2ecca"
+          style={{
+            fontFamily: 'poppinsRegular',
+            color: '#f7f2ec',
+            marginBottom: 10,
+            fontSize: 16,
+            lineHeight: 24,
+          }}
         />
       </Animated.View>
     </View>

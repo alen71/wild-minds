@@ -42,16 +42,17 @@ function StoryActions({ handleShareToInstagram, isSharing, handleSaveToGallery, 
           onPress={handleSaveToGallery}
           disabled={isSaving}
           className="flex-1 items-center justify-center">
-          <Text className="text-soft-cream ml-2 text-xl">{isSaving ? 'Saving...' : 'Save'}</Text>
+          <Text className="text-soft-cream ml-2 text-lg">{isSaving ? 'Saving...' : 'Save'}</Text>
         </Pressable>
 
         {/* Share to Stories button */}
         <Pressable
           onPress={handleShareToInstagram}
           disabled={isSharing}
-          className="bg-soft-cream w-1/2 flex-row items-center justify-center rounded-full px-5 py-3">
-          <Instagram size={20} />
-          <Text className="text-base-brown ml-2 text-lg">
+          className="bg-soft-cream w-1/2 flex-row items-center justify-center rounded-full px-6 py-4">
+          <Instagram size={19} />
+          <Text
+            style={{ fontFamily: 'poppinsMedium', fontSize: 14, lineHeight: 24, marginLeft: 6 }}>
             {isSharing ? 'Sharing...' : 'Share to Stories'}
           </Text>
         </Pressable>
