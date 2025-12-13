@@ -23,6 +23,8 @@ export default function StoryScreen() {
     mediaWrapperRef: mediaWrapperRef as React.RefObject<View | null>,
   })
 
+  const showContent = !!selectedAsset && selectedAsset.type === 'image'
+
   return (
     <View className="bg-base-brown flex-1">
       {/* Clear story button */}
@@ -37,7 +39,7 @@ export default function StoryScreen() {
       {/* Media wrapper */}
       <ViewShot ref={mediaWrapperRef} style={{ flex: 1 }}>
         {/* Story content */}
-        <StoryContent show={!!selectedAsset} />
+        <StoryContent show={showContent} />
 
         {/* Render media */}
         <RenderMedia pickMedia={pickMedia} selectedAsset={selectedAsset} />
