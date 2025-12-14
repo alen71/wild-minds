@@ -75,7 +75,7 @@ function useSaveToGallery({ selectedAsset, mediaWrapperRef }: UseSaveToGalleryPa
       Alert.alert('Success', 'Media saved to gallery!')
     } catch (error: any) {
       console.error('Error saving to gallery:', error)
-      Alert.alert('Save failed', error?.message || 'Failed to save media to gallery')
+      Alert.alert('Save failed', 'Failed to save media to gallery')
     } finally {
       setIsSaving(false)
     }
