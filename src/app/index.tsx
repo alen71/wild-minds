@@ -5,7 +5,7 @@ import usePickMedia from '@/hooks/story/use-pick-media'
 import useSaveToGallery from '@/hooks/story/use-save-to-gallery'
 import useShareToInstagram from '@/hooks/story/use-share-to-instagram'
 import { X } from 'lucide-react-native'
-import { Pressable, View } from 'react-native'
+import { Platform, Pressable, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ViewShot from 'react-native-view-shot'
 
@@ -30,7 +30,12 @@ export default function StoryScreen() {
       {/* Clear story button */}
       {selectedAsset && (
         <Pressable
-          style={{ top: safeAreaInsets.top + 20, right: 20, zIndex: 30, position: 'absolute' }}
+          style={{
+            top: safeAreaInsets.top + 20,
+            right: Platform.OS === 'ios' ? 30 : 20,
+            zIndex: 30,
+            position: 'absolute',
+          }}
           onPress={clearMedia}>
           <X size={26} color="white" />
         </Pressable>

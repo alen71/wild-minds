@@ -23,18 +23,18 @@ function useStoryContentAnimations(show: boolean) {
 
       // Title animation - 150ms delay
       titleOpacity.value = withDelay(
-        400,
+        500,
         withTiming(1, {
-          duration: 600,
+          duration: 800,
           easing: Easing.out(Easing.ease),
         })
       )
 
       // Description animation - 300ms delay
       descriptionOpacity.value = withDelay(
-        800,
+        1000,
         withTiming(1, {
-          duration: 600,
+          duration: 1000,
           easing: Easing.out(Easing.ease),
         })
       )
