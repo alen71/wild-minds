@@ -20,7 +20,7 @@ export default function StoryScreen() {
 
   const { handleSaveToGallery, isSaving } = useSaveToGallery({
     selectedAsset,
-    mediaWrapperRef: mediaWrapperRef as React.RefObject<View | null>,
+    mediaWrapperRef,
   })
 
   const showContent = !!selectedAsset && selectedAsset.type === 'image'
