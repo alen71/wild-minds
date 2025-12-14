@@ -1,14 +1,9 @@
+import usePlaceholderAnimation from '@/hooks/story/animations/use-placeholder-animation'
 import { ImagePickerAsset } from 'expo-image-picker'
 import { useVideoPlayer, VideoView } from 'expo-video'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Image, Pressable, Text, useWindowDimensions, View } from 'react-native'
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withTiming,
-} from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 
 type Props = {
   pickMedia: () => void
@@ -29,31 +24,7 @@ function VideoPlayer({ uri, height }: { uri: string; height: number }) {
 
 function RenderMedia({ pickMedia, selectedAsset }: Props) {
   const { height, width } = useWindowDimensions()
-  const placeholderOpacity = useSharedValue(0)
-  const placeholderTranslateY = useSharedValue(12)
-
-  useEffect(() => {
-    if (!selectedAsset) {
-      // Reset then play a subtle luxury fade/slide-in
-      placeholderOpacity.value = 0
-      placeholderTranslateY.value = 12
-
-      placeholderOpacity.value = withDelay(
-        120,
-        withTiming(1, { duration: 520, easing: Easing.out(Easing.ease) })
-      )
-
-      placeholderTranslateY.value = withDelay(
-        120,
-        withTiming(0, { duration: 520, easing: Easing.out(Easing.ease) })
-      )
-    }
-  }, [selectedAsset, placeholderOpacity, placeholderTranslateY])
-
-  const placeholderAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: placeholderOpacity.value,
-    transform: [{ translateY: placeholderTranslateY.value }],
-  }))
+  const placeholderAnimatedStyle = usePlaceholderAnimation(selectedAsset)
 
   if (!selectedAsset) {
     return (

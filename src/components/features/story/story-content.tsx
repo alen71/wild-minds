@@ -1,5 +1,5 @@
 import TextInput from '@/components/ui/ios-text-input'
-import useStoryContentAnimations from '@/hooks/story/use-story-content-animations'
+import useStoryContentAnimations from '@/hooks/story/animations/use-story-content-animations'
 import { cn, formatDate } from '@/utils/helper'
 import React, { useMemo } from 'react'
 import { Platform, Text, View } from 'react-native'
