@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { Platform, TextInput as RNTextInput, Text, TextInputProps, View } from 'react-native'
 
 type IOSTextInputProps = TextInputProps
@@ -7,7 +7,7 @@ type IOSTextInputProps = TextInputProps
  * Custom TextInput component that uses a custom implementation for iOS
  * with line wrapping detection and standard TextInput for Android
  */
-function TextInput(props: IOSTextInputProps) {
+const TextInput = forwardRef<RNTextInput, IOSTextInputProps>(function TextInput(props, ref) {
   const { style, value, onChangeText, onContentSizeChange, ...restProps } = props
 
   // Extract lineHeight from style for line calculation
@@ -74,6 +74,7 @@ function TextInput(props: IOSTextInputProps) {
         )}
         <RNTextInput
           {...restProps}
+          ref={ref}
           value={textValue}
           onChangeText={handleTextChange}
           onContentSizeChange={handleContentSizeChange}
@@ -84,7 +85,7 @@ function TextInput(props: IOSTextInputProps) {
   }
 
   // Standard TextInput for Android
-  return <RNTextInput {...props} />
-}
+  return <RNTextInput {...props} ref={ref} />
+})
 
 export default TextInput

@@ -49,7 +49,7 @@ function StoryActions({ handleShareToInstagram, isSharing, handleSaveToGallery, 
         <Pressable
           onPress={handleShareToInstagram}
           disabled={isSharing}
-          className="bg-soft-cream w-1/2 flex-row items-center justify-center rounded-full px-6 py-4">
+          className="bg-soft-cream w-1/2 flex-row items-center justify-center rounded-full py-4">
           <Instagram size={19} />
           <Text
             style={{ fontFamily: 'poppinsMedium', fontSize: 14, lineHeight: 24, marginLeft: 6 }}>
